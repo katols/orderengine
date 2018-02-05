@@ -1,7 +1,7 @@
 package matchengine.interfaces;
 
 public interface IOrder {
-    Double getPrice();
+    double getPrice();
 
     boolean isBuyOrder();
 

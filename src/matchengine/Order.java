@@ -5,10 +5,9 @@ import matchengine.interfaces.IOrder;
 
 public class Order implements IOrder {
 
-    private OrderProcessor orderProcessor;
     private double price;
     private int quantity;
-    private boolean buy; //0=1, 1=2
+    private boolean buy;
 
     public Order(double price, int quantity, boolean buy) {
         this.price = price;
@@ -16,36 +15,19 @@ public class Order implements IOrder {
         this.buy = buy;
     }
 
-    public OrderProcessor getOrderProcessor() {
-        return orderProcessor;
-    }
-
-    public void setOrderProcessor(OrderProcessor orderProcessor) {
-        this.orderProcessor = orderProcessor;
-    }
-
-    public Double getPrice() {
+    @Override
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
+    @Override
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
+    @Override
     public boolean isBuyOrder() {
         return buy;
-    }
-
-    public void setBuy(boolean buy) {
-        this.buy = buy;
     }
 
     @Override

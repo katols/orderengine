@@ -2,13 +2,14 @@ package matchengine;
 
 import matchengine.interfaces.IOrderConsumer;
 
-import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OrderEngineController {
+    private static final Logger logger = Logger.getLogger(OrderEngineController.class.getName());
 
     private OrderProducer orderProducer;
     private IOrderConsumer orderProcessor;
@@ -28,11 +29,11 @@ public class OrderEngineController {
 
         try {
             doneConsuming.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Order production/consumtion failed: ");
             e.printStackTrace();
         }
+
         stop();
     }
 
@@ -44,7 +45,7 @@ public class OrderEngineController {
     public OrderEngineController() {
         threadPool = Executors.newFixedThreadPool(3);
         orderProcessor = initializeOrderProcessor();
-        orderProducer = new OrderProducer(orderProcessor,  this);
+        orderProducer = new OrderProducer(orderProcessor);
     }
 
     private IOrderConsumer initializeOrderProcessor() {

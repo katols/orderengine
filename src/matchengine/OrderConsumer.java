@@ -15,18 +15,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class OrderConsumer implements IOrderConsumer {
-    public static final int MAX_CAPACITY = 20; //Depends on desired latency
+    public static final int MAX_CAPACITY = 50; //Depends on desired latency
 
     private static final Logger logger = Logger.getLogger(OrderConsumer.class.getName());
+    private List<Long> timeRecordsConsumerSide = new ArrayList<>();
+    private List<Long> timeRecordsProducerSide = new ArrayList<>();
+    private static int consumedMessages = 0;
 
     private LinkedBlockingQueue<IOrder> orderQueue;
     private IOrderProcessor orderProcessor;
     private AtomicBoolean running = new AtomicBoolean(false);
     private int timeout = 5000; //Default, ms
-    private static int consumedMessages = 0;
-    private List<Long> timeRecords = new ArrayList<>();
-
-    private List<Long> timeRecordsProducerSide = new ArrayList<>();
 
 
     public OrderConsumer() {
@@ -96,15 +95,15 @@ public class OrderConsumer implements IOrderConsumer {
         long timestampPre = System.nanoTime();
         int status = orderProcessor.processOrder(order);
         long timestampPost = System.nanoTime();
-        timeRecords.add(timestampPost - timestampPre);
+        timeRecordsConsumerSide.add(timestampPost - timestampPre);
         return status;
     }
 
     private void calculateAndPrintAverageLatency() {
-        OptionalDouble averageProcessingTime = timeRecords.stream().mapToLong(Long::longValue).average();
+        OptionalDouble averageProcessingTime = timeRecordsConsumerSide.stream().mapToLong(Long::longValue).average();
         double averageInMicroSeconds = averageProcessingTime.getAsDouble() / 1000.0;
         logger.log(Level.INFO, "Average processing latency on consumer side is " + averageInMicroSeconds + " microseconds");
-        logger.log(Level.INFO, "Maximum processing latency on consumer side:  " + Collections.max(timeRecords).doubleValue() / 1000.0 + " microseconds");
+        logger.log(Level.INFO, "Maximum processing latency on consumer side:  " + Collections.max(timeRecordsConsumerSide).doubleValue() / 1000.0 + " microseconds");
         logger.log(Level.INFO, "Maximum waiting time of producer: " + Collections.max(timeRecordsProducerSide).doubleValue() / 1000.0 + "microseconds");
     }
 }

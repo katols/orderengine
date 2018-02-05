@@ -4,11 +4,7 @@ import matchengine.interfaces.IOrder;
 import matchengine.interfaces.IOrderBook;
 import matchengine.interfaces.IOrderProcessor;
 
-import java.util.logging.Logger;
-
 public class OrderProcessor implements IOrderProcessor {
-
-    private static final Logger logger = Logger.getLogger(OrderProcessor.class.getName());
 
     public static final int NOT_MATCHED = 4;
     public static final int PARTIALLY_MATCHED = 6;
