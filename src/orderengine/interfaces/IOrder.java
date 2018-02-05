@@ -1,4 +1,4 @@
-package matchengine.interfaces;
+package orderengine.interfaces;
 
 public interface IOrder {
     double getPrice();

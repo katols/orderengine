@@ -1,10 +1,11 @@
 package test;
 
-import matchengine.Order;
-import matchengine.OrderBook;
-import matchengine.OrderProcessor;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import orderengine.Order;
+import orderengine.OrderBook;
+import orderengine.OrderProcessor;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class OrderProcessorTest {
 
@@ -109,10 +110,10 @@ public class OrderProcessorTest {
 }
 
 
-/*package matchengine;
+/*package orderengine;
 
-        import matchengine.interfaces.IOrder;
-        import matchengine.interfaces.IOrderBook;
+        import orderengine.interfaces.IOrder;
+        import orderengine.interfaces.IOrderBook;
 
         import java.util.Iterator;
         import java.util.Set;
